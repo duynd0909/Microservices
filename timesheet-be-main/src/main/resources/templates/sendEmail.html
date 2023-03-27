@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Notification Email</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<p th:text="${'Dear ' + timeSheetList[0].fullName}"></p>
+<p>
+    <span>Để chốt lại kì công tháng </span><span th:text="${month}"></span><span> trong dự án, </span>
+    <span th:text="${timeSheetList[0].fullName}"></span><span> vui lòng xác nhận công của mình theo timesheet như file đính kèm.</span>
+    <span>Nếu số liệu không đúng trên thực tế, vui lòng phản hồi lại theo template bên dưới vào email <strong>ntkhanh1@cmcglobal.vn</strong> ngay trong hôm nay.</span>
+</p>
+<p>
+    <span>*Đây là kì công dự án kéo dài từ ngày 1~31 hằng tháng, <span th:text="${timeSheetList[0].fullName}"></span> chú ý để phân biệt với kì công của CMC.</span>
+</p>
+<p>Template phản hồi:</p>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Tên nhân sự</th>
+        <th>Ngày</th>
+        <th>Nội dung cần trình bày</th>
+        <th>Thực tế</th>
+        <th>OT</th>
+        <th>Evidence</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td rowspan="4">Lê Văn A</td>
+        <td>2/2</td>
+        <td>Check in lúc 12h30</td>
+        <td>Đi làm đúng giờ, lỗi chấm công</td>
+        <td>-</td>
+        <td>*Image: lịch sử log VDI từ 8h sáng 2/2</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>5/2</td>
+        <td>Check in lúc 12h30</td>
+        <td>Đi làm đúng giờ, lỗi chấm công</td>
+        <td>-</td>
+        <td>*Image: lịch sử log VDI từ 8h sáng 2/2</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>5/2</td>
+        <td>Check in lúc 12h30</td>
+        <td>Đi làm đúng giờ, lỗi chấm công</td>
+        <td>-</td>
+        <td>*Image: lịch sử log VDI từ 8h sáng 2/2</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>5/2</td>
+        <td>Check in lúc 12h30</td>
+        <td>Đi làm đúng giờ, lỗi chấm công</td>
+        <td>-</td>
+        <td>*Image: lịch sử log VDI từ 8h sáng 2/2</td>
+    </tr>
+    </tbody>
+</table>
+<p>*Timesheet thực tế:</p>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Name</th>
+        <th>User ID</th>
+        <th>Du</th>
+        <th>Project</th>
+        <th>In</th>
+        <th>Out</th>
+        <th>Exception</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="timeSheet:${timeSheetList}">
+        <td th:text="${timeSheet.workingDateStr}"></td>
+        <td th:text="${timeSheet.fullName}"></td>
+        <td th:text="${timeSheet.userId}"></td>
+        <td th:text="${timeSheet.du}"></td>
+        <td th:text="${timeSheet.project}"></td>
+        <td th:text="${timeSheet.timeIn}"></td>
+        <td th:text="${timeSheet.timeOut}"></td>
+        <td th:text="${timeSheet.exception}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

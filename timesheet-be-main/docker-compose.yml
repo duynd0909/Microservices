@@ -1,0 +1,47 @@
+version: "3"
+services:
+  proxy:
+    image: nginx:latest
+    container_name: timesheet-proxy
+    hostname: timesheet-proxy
+    volumes:
+      - /home/ubuntu/timesheet/fe/build:/usr/share/nginx/html
+      - ./config/proxy.conf:/etc/nginx/conf.d/default.conf
+      - ./cert:/app/cert
+    ports:
+      - "80:80"
+  server:
+    container_name: timesheet-server
+    hostname: timesheet-server
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/timesheet
+      SPRING_REDIS_HOST: cache
+      SPRING_REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+  db:
+    container_name: timesheet-db
+    hostname: timesheet-db
+    image: postgres:15
+    environment:
+      POSTGRES_DB: timesheet
+      POSTGRES_USER: du6user
+      POSTGRES_PASSWORD: 123a@
+    volumes:
+      - timesheet-db:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+  cache:
+    image: "redis"
+    container_name: redis-db
+    hostname: redis-db
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+volumes:
+  timesheet-db:
